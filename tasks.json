@@ -1,7 +1,12 @@
 [
   {
     "id": 1,
-    "name": "Complete the project report",
+    "name": "Complete final project",
+    "done": false
+  },
+  {
+    "id": 2,
+    "name": "Prepare presentation slides",
     "done": true
   }
 ]
