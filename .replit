@@ -2,7 +2,7 @@ modules = ["perl", "python-3.11"]
 
 [nix]
 channel = "stable-24_05"
-packages = ["perl"]
+packages = ["perl", "sqlite"]
 
 [workflows]
 runButton = "Project"
