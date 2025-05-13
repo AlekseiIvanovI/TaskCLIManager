@@ -55,9 +55,23 @@ def save_tasks(tasks):
 def add_task(task_name, connection, cursor):
     # Load existing tasks from the file
     tasks = load_tasks()
-
-    # Generate a new task ID (one more than the current number of tasks)
-    task_id = len(tasks) + 1
+    
+    # Find the maximum ID in the existing tasks
+    max_id = 0
+    for task in tasks:
+        if task["id"] > max_id:
+            max_id = task["id"]
+    
+    # Also check max ID in database
+    cursor.execute("SELECT MAX(id) FROM tasks")
+    result = cursor.fetchone()
+    db_max_id = result[0] if result[0] is not None else 0
+    
+    # Use the highest max_id from either source
+    max_id = max(max_id, db_max_id)
+    
+    # Generate a new task ID
+    task_id = max_id + 1
 
     # Create a new task and add it to the list
     tasks.append({"id": task_id, "name": task_name, "done": False})
