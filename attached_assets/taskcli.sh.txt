@@ -1,0 +1,47 @@
+#!/usr/bin/bash
+
+# fnc that displays help screen & correct usage for tool
+help() { cat <<EOF
+TaskCLI - terminal to-do manager
+Usage: taskcli <command> [args]
+
+Commands:
+        --add                   Add a new task
+        --list                  Show tasks
+        --done ID               Mark task done
+        --remove ID             Remove task
+        --summary               AWK summary report
+        --export                Perl -> HTML export
+        --help                  This is the help screen
+EOF
+}
+
+# Ensure the taskcli directory exists, if not create it and any needed parent directories
+mkdir -p "$HOME/taskcli"
+cd "$HOME/taskcli"
+
+
+#confirm a command was entered. show help if not
+if [ $# -eq 0 ]; then
+        help
+        exit
+fi
+
+# Route command to the correct scripting tool/action
+# use case statement
+cmd=$1
+shift
+ARGS="$@"
+
+case "$cmd" in
+        --add|--list|--done|--remove)
+                                python3 taskcli.py "$cmd" "$ARGS"
+                                echo "Python script $cmd $ARGS" ;;  # remove just for testing
+        --summary)
+        awk -f summary.awk tasks.json;;
+        --export)
+        perl export_tasks.pl;;
+        --help|*) help;;
+esac
+
+
