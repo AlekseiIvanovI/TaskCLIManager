@@ -24,10 +24,12 @@ my @tasks; # array to hold list of parsed tasks
 # Find every occurrence of: "id": 12, "name": "John", "done": true|false
 # "/s" -> searches past \n through entire string
 # "/g" -> remembers where in the string last match was found, starts search there not at beginning
+# "/x" -> allows  regex to be on multiple lines for readability
+# .*? <- '?' stops as soon as the next field is matched
 while ($json_text =~ /"id"\s*:\s*(\d+) 
-                      .*"name"\s*:\s*"([^"]*)"
-                      .*"done"\s*:\s*(true|false)
-                      /sg) {
+                      .*?"name"\s*:\s*"([^"]*)"
+                      .*?"done"\s*:\s*(true|false)
+                      /sgx) {
     # found match, push 1st field to task.id, ...
     push @tasks, { id => $1, desc => $2, done => $3 };
 } # Done reading the file into a string
@@ -38,8 +40,15 @@ open my $hf, '>', $HTML_FILE
   or die "Cannot open $HTML_FILE for writing: $!";
 
 # Print the opening tags, header, and begin the table
+# Style - body           -> body text font and margin
+# Style - h1             -> main header color + bottom border/line 
+# Style - table          -> table has full display width, borders, and seperating spacing above 
+# Style - th, td         -> all data and header cells have padding, are left-alligned, and have a bottom border
+# Style - th             -> give table header light gray background color
+# Style - status-done    -> class for done tasks; green and bold txt
+# Style - status-pending -> class for pending tasks; red and bold txt
 print $hf <<HTML_HEAD;
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html>
 <head>
     <meta charset="utf-8">
@@ -50,7 +59,6 @@ print $hf <<HTML_HEAD;
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background-color: #f2f2f2; }
-        tr:hover { background-color: #f5f5f5; }
         .status-done { color: green; font-weight: bold; }
         .status-pending { color: red; font-weight: bold; }
     </style>
