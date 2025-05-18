@@ -28,7 +28,7 @@ inTask && /"done":/ {
     inTask = 0;             # clear flag for current task
 }
 
-# After all the lines in tasks.json processed, print results
+# Runs after all the lines in tasks.json processed, print results
 END {
     openTasks = taskCount - doneTasks;
     
