@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+# Developers that contributed to script: Darren Schell, Aleksei Ivanov
+
 # A Perl file for a simple export of tasks.json to tasks.html with a basic table format
 
 use strict;
