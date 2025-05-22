@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# Developers that contributed to script: Darren Schell, Aleksei Ivanov
+
 # Parsing command-line arguments
 import argparse
 
