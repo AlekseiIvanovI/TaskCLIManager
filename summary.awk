@@ -1,5 +1,7 @@
 #!/usr/bin/awk -f
 
+# Developers that contributed to script: Darren Schell, Aleksei Ivanov
+
 # AWK script to generate a summary report from tasks.json file
 
 # Run BEFORE procesing any lines
