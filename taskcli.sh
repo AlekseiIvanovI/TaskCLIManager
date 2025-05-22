@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+# Developers that contributed to script: Darren Schell, Aleksei Ivanov
+
 # ---- TASK CLI -----
 # Bash script, is the entry point and driver for all TaskCLI commands
 
