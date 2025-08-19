@@ -1,0 +1,40 @@
+modules = ["perl", "python-3.11"]
+
+[nix]
+channel = "stable-24_05"
+packages = ["perl", "sqlite"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "TaskCLI Server"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "TaskCLI Application Test"
+
+[[workflows.workflow]]
+name = "TaskCLI Server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "chmod +x taskcli.sh summary.awk export_tasks.pl && ./taskcli.sh --help"
+
+[[workflows.workflow]]
+name = "TaskCLI Application Test"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "chmod +x taskcli.sh taskcli.py summary.awk export_tasks.pl && ./taskcli.sh --add \"Complete the project report\" && ./taskcli.sh --list && ./taskcli.sh --done 1 && ./taskcli.sh --add \"Meeting with team\" && ./taskcli.sh --list && ./taskcli.sh --remove 2 && ./taskcli.sh --list && ./taskcli.sh --summary && ./taskcli.sh --export"
+
+[deployment]
+run = ["sh", "-c", "chmod +x taskcli.sh summary.awk export_tasks.pl && pip install JSON HTML::Entities && ./taskcli.sh --help"]
